@@ -2,7 +2,6 @@
 using SalesWebMvc.Models;
 using SalesWebMvc.Services.Exceptions;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SalesWebMvc.Services
@@ -34,9 +33,16 @@ namespace SalesWebMvc.Services
 
         public async Task RemoveAsync(int id)
         {
-            var sellerToRemove = await _context.Seller.FindAsync(id);
-            _context.Seller.Remove(sellerToRemove);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var sellerToRemove = await _context.Seller.FindAsync(id);
+                _context.Seller.Remove(sellerToRemove);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new IntegrityException("Cannot delet seller because he/she has sales.");
+            }
         }
 
         public async Task UpdateAsync(Seller seller)
