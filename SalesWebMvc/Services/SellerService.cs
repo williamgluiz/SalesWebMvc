@@ -3,6 +3,7 @@ using SalesWebMvc.Models;
 using SalesWebMvc.Services.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SalesWebMvc.Services
 {
@@ -15,39 +16,40 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Seller> FindAll()
+        public async Task<List<Seller>> FindAllAsync()
         {
-            return _context.Seller.ToList();
+            return await _context.Seller.ToListAsync();
         }
 
-        public void Insert(Seller seller)
+        public async Task InsertAsync(Seller seller)
         {
             _context.Add(seller);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Seller FindById(int id)
+        public async Task<Seller> FindByIdAsync(int id)
         {
-            return _context.Seller.Include(dept => dept.Department).FirstOrDefault(seller => seller.Id == id);
+            return await _context.Seller.Include(dept => dept.Department).FirstOrDefaultAsync(seller => seller.Id == id);
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var sellerToRemove = _context.Seller.Find(id);
+            var sellerToRemove = await _context.Seller.FindAsync(id);
             _context.Seller.Remove(sellerToRemove);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Seller seller)
+        public async Task UpdateAsync(Seller seller)
         {
-            if (!_context.Seller.Any())
+
+            if (!await _context.Seller.AnyAsync())
             {
                 throw new NotFoundException("Id seller not found!");
             }
             try
             {
                 _context.Update(seller);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {
