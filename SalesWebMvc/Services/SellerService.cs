@@ -40,7 +40,7 @@ namespace SalesWebMvc.Services
 
         public void Update(Seller seller)
         {
-            if (_context.Seller.Any())
+            if (!_context.Seller.Any())
             {
                 throw new NotFoundException("Id seller not found!");
             }

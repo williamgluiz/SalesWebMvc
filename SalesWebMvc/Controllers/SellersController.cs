@@ -92,7 +92,7 @@ namespace SalesWebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edi(int id, Seller seller)
+        public IActionResult Edit(int id, Seller seller)
         {
             if (id != seller.Id)
             {
