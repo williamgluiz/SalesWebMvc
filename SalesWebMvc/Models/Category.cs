@@ -10,6 +10,8 @@ namespace SalesWebMvc.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<Product> Products { get; set; } = new List<Product>();
+        public int DepartmentId { get; set; }
+        public Department Department { get; set; }
 
         public Category()
         {
