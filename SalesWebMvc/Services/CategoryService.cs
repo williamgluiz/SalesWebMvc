@@ -24,5 +24,12 @@ namespace SalesWebMvc.Services
             _context.Category.Add(category);
             await _context.SaveChangesAsync(); 
         }
+
+        public async Task<Category> FindByIdAsync(int id)
+        {
+            return await _context.Category
+                                 .Include(dept => dept.Department)
+                                 .FirstOrDefaultAsync(catg => catg.Id == id);
+        }
     }
 }

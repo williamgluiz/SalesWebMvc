@@ -45,5 +45,11 @@ namespace SalesWebMvc.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var categoryToRemove = await _categoryService.FindByIdAsync(id.Value);
+            return View(categoryToRemove);
+        }
     }
 }
