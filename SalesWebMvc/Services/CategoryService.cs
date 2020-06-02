@@ -1,6 +1,7 @@
-﻿using SalesWebMvc.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SalesWebMvc.Models;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace SalesWebMvc.Services
 {
@@ -13,9 +14,15 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Category> FindAll()
+        public async Task<List<Category>> FindAllAsync()
         {
-            return _context.Category.ToList();
+            return await _context.Category.ToListAsync();
+        }
+
+        public async Task InsertAsync(Category category)
+        {
+            _context.Category.Add(category);
+            await _context.SaveChangesAsync(); 
         }
     }
 }
